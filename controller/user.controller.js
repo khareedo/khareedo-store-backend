@@ -1,7 +1,7 @@
 import UserModel from "../model/user.model.js";
 
 class UserController {
-  async getUsers() {
+  async getUsers(req, res) {
     const data = await UserModel.find();
     const users = [];
     data.forEach((d) => {

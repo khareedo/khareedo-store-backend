@@ -1,7 +1,7 @@
 import ManufacturerModel from "../model/manufacturer.model.js";
 
 class ManufacturerController {
-  async getManufacturers() {
+  async getManufacturers(req, res) {
     const manufacturers = await ManufacturerModel.find();
     
     res.status(200)
