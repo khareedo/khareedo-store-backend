@@ -33,7 +33,7 @@ class OrderController {
     const id = req.params.id
     const result = await OrderModel.findByIdAndDelete(id);
     res.status(200)
-    res.json({ message: 'Customer was deleted successfully!', success: true});
+    res.json({ message: 'Order was deleted successfully!', success: true});
   }
 }
 
