@@ -1,7 +1,7 @@
 import OrderModel from "../model/order.model.js";
 
 class OrderController {
-  async getOrders() {
+  async getOrders(req, res) {
     const orders = await OrderModel.find();
     
     res.status(200)

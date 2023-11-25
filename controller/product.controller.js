@@ -1,7 +1,7 @@
 import ProductModel from "../model/product.model.js";
 
 class ProductController {
-  async getProducts() {
+  async getProducts(req, res) {
     const products = await ProductModel.find();
     
     res.status(200)

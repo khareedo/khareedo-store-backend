@@ -1,21 +1,21 @@
-import CustomerModel from "../model/customer.model.js";
+import CartModel from "../model/cart.model.js";
 
-class CustomerController {
-  async getCustomers(req, res) {
-    const customers = await CustomerModel.find();
+class CartController {
+  async getOrders(req, res) {
+    const carts = await OrderModel.find();
     
     res.status(200)
-    res.json(customers)
+    res.json(orders)
   }
 
-  async getCustomer(req, res) {
-    const data = await CustomerModel.findById(req.params.id);
+  async getOrder(req, res) {
+    const data = await OrderModel.findById(req.params.id);
     res.status(200)
     res.json(data)
   }
 
   async create(req, res) {
-    const result = await CustomerModel.create(req.body);
+    const result = await OrderModel.create(req.body);
     console.log(result)
     res.status(200)
     res.json({ message: 'OK', success: true});
@@ -24,17 +24,17 @@ class CustomerController {
   async update(req, res) {
     const id = req.params.id;
     const data = req.body
-    await CustomerModel.findByIdAndUpdate(id, data);
+    await OrderModel.findByIdAndUpdate(id, data);
     res.status(200)
     res.json({ message: 'OK', success: true});
   }
 
   async delete (req, res) {
     const id = req.params.id
-    const result = await CustomerModel.findByIdAndDelete(id);
+    const result = await OrderModel.findByIdAndDelete(id);
     res.status(200)
     res.json({ message: 'Customer was deleted successfully!', success: true});
   }
 }
 
-export default CustomerController;
+export default OrderController;
