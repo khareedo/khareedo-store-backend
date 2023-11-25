@@ -2,11 +2,11 @@ import express from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser'
 import * as dotenv from 'dotenv';
-import * as routes from './routes/index.js';
+import router from './routes/index.js';
 dotenv.config();
 
 const app = express();
-app.use(routes);
+app.use('/', router);
 
 var corsOptions = {
   origin: "http://localhost:8081"
