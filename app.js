@@ -3,10 +3,10 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser'
 import * as dotenv from 'dotenv';
 import router from './routes/index.js';
+import bodyParser from 'body-parser';
 dotenv.config();
 
 const app = express();
-app.use('/', router);
 
 var corsOptions = {
   origin: "http://localhost:8081"
@@ -17,6 +17,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static("public"));
+
+app.use(bodyParser.json());
+
+app.use('/', router);
 
 app.get("/", (req, res) => {
 
