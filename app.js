@@ -1,5 +1,6 @@
 import express from 'express';
 import cors from 'cors';
+import cookieParser from 'cookie-parser'
 import * as dotenv from 'dotenv';
 dotenv.config();
 
@@ -12,8 +13,11 @@ var corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
+app.use(express.static("public"));
 
 app.get("/", (req, res) => {
+
   res.json({ message: "Welcome to Khareedo Store." });
 });
 
