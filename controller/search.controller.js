@@ -2,16 +2,12 @@ import ProductModel from "../model/product.model.js";
 
 class SearchController{
     async searchProducts(req, res) {
-        const products = await ProductModel.find();
-        
+        console.log('query ', req.query);
+        const search = req.query.search;
+        const products = await ProductModel.find({ name: `/${search}/i` }).exec();
+        console.log('products ', products);
         res.status(200)
         res.json(products)
-      }
-    
-      async searchProduct(req, res) {
-        const data = await ProductModel.findById(req.params.id);
-        res.status(200)
-        res.json(data)
       }
 }
 
