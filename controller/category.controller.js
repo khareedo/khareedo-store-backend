@@ -1,8 +1,9 @@
 import CategoryModel from "../model/category.model.js";
+import ProductModel from "../model/product.model.js";
 
 class CategoryController {
   async getCategories(req, res) {
-    const categries = await CategoryModel.find();
+    const categories = await CategoryModel.find();
     
     res.status(200)
     res.json(categories)
@@ -10,8 +11,9 @@ class CategoryController {
 
   async getCategory(req, res) {
     const data = await CategoryModel.findById(req.params.id);
+    const products = await ProductModel.find({categoryId: req.params.id})
     res.status(200)
-    res.json(data)
+    res.json({data, products})
   }
 
   async create(req, res) {
