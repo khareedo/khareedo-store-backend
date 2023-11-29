@@ -4,16 +4,35 @@ import ProductModel from "../model/product.model.js";
 class CategoryController {
   async getCategories(req, res) {
     const categories = await CategoryModel.find();
-    
     res.status(200)
     res.json(categories)
   }
 
   async getCategory(req, res) {
-    const data = await CategoryModel.findById(req.params.id);
+    const category = await CategoryModel.findById(req.params.id);
     const products = await ProductModel.find({categoryId: req.params.id})
+    const data = {
+      _id: category._id,
+      name: category.name,
+      description: category.description,
+      thumbnail: category.thumbnail,
+      metaKeyword: category.metaKeyword,
+      metaDescription: category.metaDescription,
+      products: []
+    };
+    products.forEach((p) => {
+      data.products.push({
+        _id: p._id,
+        name: p.name,
+        model: p.model,
+        description: p.description,
+        price: p.price,
+        quantity: p.quantity,
+        thumbnail: p.thumbnail
+      });
+    })
     res.status(200)
-    res.json({data, products})
+    res.json(data)
   }
 
   async create(req, res) {

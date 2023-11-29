@@ -4,7 +4,12 @@ import cookieParser from 'cookie-parser'
 import * as dotenv from 'dotenv';
 import router from './routes/index.js';
 import bodyParser from 'body-parser';
+import MongoDB from './config/mongodb.js';
+
 dotenv.config();
+
+const mongo = new MongoDB()
+mongo.connect();
 
 const app = express();
 

@@ -16,7 +16,6 @@ class ProductController {
 
   async create(req, res) {
     const result = await ProductModel.create(req.body);
-    console.log(result)
     res.status(200)
     res.json({ message: 'OK', success: true});
   }

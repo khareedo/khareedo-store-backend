@@ -7,8 +7,8 @@ class UserController {
     data.forEach((d) => {
       users.push({
         id: d._id,
-        firstname: d.firstname,
-        lastname: d.lastname,
+        name: d.name,
+        username: d.username,
         gender: d.gender,
         email: d.email,
         phone: d.phone,

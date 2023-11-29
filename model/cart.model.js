@@ -1,15 +1,12 @@
-import mongoose from 'mongoose';
-import MongoDB from "../config/mongodb.js";
-const mongo = new MongoDB()
-mongo.connect();
+import {Schema, model} from 'mongoose';
 
-const cartSchema = new mongoose.Schema({
-    customer_id: String,
-    product_id: String,
-    quantity: Number,
-    date_added: String
+const cartSchema = new Schema({
+    customer_id: { type: String, required: true },
+    product_id: { type: String, required: true },
+    quantity: { type: Number, required: true },
+    created: { type: Date, default: Date.now }
 });
 
-const CartModel = mongoose.model('cart', cartSchema);
+const CartModel = model('cart', cartSchema);
 
 export default CartModel;

@@ -1,9 +1,6 @@
-import mongoose from 'mongoose';
-import MongoDB from "../config/mongodb.js";
-const mongo = new MongoDB()
-mongo.connect();
+import {Schema, model} from 'mongoose';
 
-const manufacturerSchema = new mongoose.Schema({
+const manufacturerSchema = new Schema({
   name: String,
   description: String,
   logo: String,
@@ -11,6 +8,6 @@ const manufacturerSchema = new mongoose.Schema({
   metaDescription: String
 });
 
-const ManufacturerModel = mongoose.model('manufacturer', manufacturerSchema);
+const ManufacturerModel = model('manufacturer', manufacturerSchema);
 
 export default ManufacturerModel;

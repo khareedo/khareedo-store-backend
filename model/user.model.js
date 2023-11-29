@@ -1,18 +1,14 @@
-import mongoose from 'mongoose';
-import MongoDB from "../config/mongodb.js";
-const mongo = new MongoDB()
-mongo.connect();
+import {Schema, model} from 'mongoose';
 
-const userSchema = new mongoose.Schema({
-  firstname: String,
-  lastname: String,
-  username: String,
+const userSchema = new Schema({
+  name: String,
+  username: { type: String, unique: true, required: true },
   gender: String,
-  email: String,
+  email: { type: String, unique: true, required: true },
   password: String,
   phone: Number
 });
 
-const UserModel = mongoose.model('user', userSchema);
+const UserModel = model('user', userSchema);
 
 export default UserModel;

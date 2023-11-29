@@ -3,7 +3,6 @@ import CustomerModel from "../model/customer.model.js";
 class CustomerController {
   async getCustomers(req, res) {
     const customers = await CustomerModel.find();
-    
     res.status(200)
     res.json(customers)
   }
@@ -16,7 +15,6 @@ class CustomerController {
 
   async create(req, res) {
     const result = await CustomerModel.create(req.body);
-    console.log(result)
     res.status(200)
     res.json({ message: 'OK', success: true});
   }

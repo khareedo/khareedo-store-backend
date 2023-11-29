@@ -1,16 +1,14 @@
-import mongoose from 'mongoose';
-import MongoDB from "../config/mongodb.js";
-const mongo = new MongoDB()
-mongo.connect();
+import {Schema, model} from 'mongoose';
 
-const categorySchema = new mongoose.Schema({
-  name: String,
+const categorySchema = new Schema({
+  name: { type: String, required: true },
   description: String,
   thumbnail: String,
   metaKeyword: String,
-  metaDescription: String
+  metaDescription: String,
+  products: [{ type: Schema.Types.ObjectId, ref: 'ProductModel' }]
 });
 
-const CategoryModel = mongoose.model('category', categorySchema);
+const CategoryModel = model('category', categorySchema);
 
 export default CategoryModel;
