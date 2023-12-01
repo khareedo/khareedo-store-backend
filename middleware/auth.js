@@ -5,7 +5,6 @@ import UserModel from '../model/user.model.js';
 
 export default class Auth {
   async verifyUserLogin(email, password) {
-    // console.log('email, password ', email, password);
     try {
       const user = await UserModel.findOne({ $or: [{ email }, { username: email}] });
       if (!user) {
@@ -28,6 +27,19 @@ export default class Auth {
     } catch (error) {
       console.log('error catch ', error);
       return {status:408, message:'Error timeout!', token: '', name: '', username: '' };
+    }
+  }
+
+  async destroyLogin() {
+    const JWT_SECRET = auth.default.secret;
+    const token = await jwt.sign({}, JWT_SECRET, {expiresIn: '0h'})
+  }
+  async verifyToken(token) {
+    try {
+      const result = await jwt.verify(token, auth.default.secret);
+      return result;
+    } catch (error) {
+      return {success: false, message: error.message}
     }
   }
 }

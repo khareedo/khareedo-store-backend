@@ -1,7 +1,7 @@
 import UserModel from "../model/user.model.js";
 import bcrypt from 'bcrypt';
-import * as auth from '../config/auth.config.js';
 import Auth from '../middleware/auth.js'
+import * as auth from './../config/auth.config.js'
 
 class UserController {
   async login(req, res) {
@@ -14,6 +14,24 @@ class UserController {
 
     res.json({token, name, username});
   }
+
+  async logout(req, res) {
+    const auth = new Auth();
+
+    const result = await auth.destroyLogin();
+    
+    res.status(200);
+
+    res.json({message: 'Logged out!'});
+  }
+  
+  async isLogged(req, res) {
+    const { token } = req.body;
+    const auth = new Auth();
+    const result = await auth.verifyToken(token);
+    res.send(result);
+  }
+
   async getUsers(req, res) {
     const data = await UserModel.find();
     const users = [];
