@@ -6,6 +6,8 @@ import router from './routes/index.js';
 import bodyParser from 'body-parser';
 import MongoDB from './config/mongodb.js';
 import fileUpload from 'express-fileupload';
+import __dirname  from 'path'
+import path from 'path';
 
 dotenv.config();
 
@@ -23,7 +25,7 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(express.static("public"));
+app.use(express.static(path.resolve('./public')));
 
 app.use(bodyParser.json());
 

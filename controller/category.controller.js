@@ -56,7 +56,7 @@ class CategoryController {
     const { image } = req.files;
     if (image) {
       image.mv(__dirname + './../public/images/' + image.name);
-      data.thumbnail = '/images/' + image.name;
+      data.thumbnail = 'images/' + image.name;
     }
     await CategoryModel.findByIdAndUpdate(id, data);
     res.status(200)
