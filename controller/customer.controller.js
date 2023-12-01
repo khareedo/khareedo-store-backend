@@ -14,9 +14,14 @@ class CustomerController {
   }
 
   async create(req, res) {
-    const result = await CustomerModel.create(req.body);
-    res.status(200)
-    res.json({ message: 'OK', success: true});
+    try {
+      const result = await CustomerModel.create(req.body);
+      res.status(200)
+      res.json({ message: 'OK', success: true});
+    } catch (error) {
+      res.status(409)
+      res.json({ message: 'Error in saving customer : ' + error.message, success: false});
+    }
   }
 
   async update(req, res) {
