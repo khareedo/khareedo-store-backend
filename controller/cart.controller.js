@@ -2,18 +2,12 @@ import CartModel from "../model/cart.model.js";
 
 class CartController {
   async getCarts(req, res) {
-    const carts = await CartModel.find();
-    
+    const { customerId } = req.body;
+    const carts = await CartModel.find({ customerId });
     res.status(200)
     res.json(carts)
   }
-
-  async getCart(req, res) {
-    const data = await CartModel.findById(req.params.id);
-    res.status(200)
-    res.json(data)
-  }
-
+  
   async create(req, res) {
     const result = await CartModel.create(req.body);
     console.log(result)

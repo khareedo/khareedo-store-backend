@@ -15,7 +15,15 @@ class ProductController {
   }
 
   async create(req, res) {
-    const result = await ProductModel.create(req.body);
+    const { image } = req.files;
+    const data = req.body;
+
+    if (image) {
+      image.mv(__dirname + './../public/images/' + image.name);
+      data.thumbnail = '/images/' + image.name;
+    }
+
+    const result = await ProductModel.create(data);
     res.status(200)
     res.json({ message: 'OK', success: true});
   }
@@ -23,6 +31,13 @@ class ProductController {
   async update(req, res) {
     const id = req.params.id;
     const data = req.body
+    const { image } = req.files;
+
+    if (image) {
+      image.mv(__dirname + './../public/images/' + image.name);
+      data.thumbnail = '/images/' + image.name;
+    }
+
     await ProductModel.findByIdAndUpdate(id, data);
     res.status(200)
     res.json({ message: 'OK', success: true});

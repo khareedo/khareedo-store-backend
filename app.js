@@ -5,6 +5,7 @@ import * as dotenv from 'dotenv';
 import router from './routes/index.js';
 import bodyParser from 'body-parser';
 import MongoDB from './config/mongodb.js';
+import fileUpload from 'express-fileupload';
 
 dotenv.config();
 
@@ -14,9 +15,10 @@ mongo.connect();
 const app = express();
 
 var corsOptions = {
-  origin: "http://localhost:8081"
+  origin: ["http://localhost:8081", "http://localhost:5173"]
 };
 
+app.use(fileUpload());
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

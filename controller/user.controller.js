@@ -1,6 +1,19 @@
 import UserModel from "../model/user.model.js";
+import bcrypt from 'bcrypt';
+import * as auth from '../config/auth.config.js';
+import Auth from '../middleware/auth.js'
 
 class UserController {
+  async login(req, res) {
+    const auth = new Auth();
+    const { email, password } = req.body;
+
+    const {status, token, name, username} = await auth.verifyUserLogin(email, password);
+    
+    res.status(status);
+
+    res.json({token, name, username});
+  }
   async getUsers(req, res) {
     const data = await UserModel.find();
     const users = [];
@@ -26,9 +39,16 @@ class UserController {
   }
 
   async create(req, res) {
-    await UserModel.create(req.body);
-    res.status(200)
-    res.json({ message: 'OK', success: true});
+    const hashedPassword = await bcrypt.hash(req.body.password, auth.default.salt);
+    try {
+      const userData = { ...req.body, password: hashedPassword}
+      const { name, email, username } = await UserModel.create(userData);
+      res.status(201)
+      res.json({ message: 'OK', success: true, data: {name, email, username } });
+    } catch (error) {
+      res.status(409)
+      res.json({ message: 'Failed to save user :' + error.message , success: false});
+    }
   }
 
   async update(req, res) {

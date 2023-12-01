@@ -1,5 +1,7 @@
 import CategoryModel from "../model/category.model.js";
 import ProductModel from "../model/product.model.js";
+import __dirname from 'path';
+import * as auth from '../config/auth.config.js';
 
 class CategoryController {
   async getCategories(req, res) {
@@ -15,7 +17,7 @@ class CategoryController {
       _id: category._id,
       name: category.name,
       description: category.description,
-      thumbnail: category.thumbnail,
+      thumbnail: auth.default.cdn + category.thumbnail,
       metaKeyword: category.metaKeyword,
       metaDescription: category.metaDescription,
       products: []
@@ -28,7 +30,7 @@ class CategoryController {
         description: p.description,
         price: p.price,
         quantity: p.quantity,
-        thumbnail: p.thumbnail
+        thumbnail: auth.default.cdn + p.thumbnail
       });
     })
     res.status(200)
@@ -36,8 +38,14 @@ class CategoryController {
   }
 
   async create(req, res) {
-    const result = await CategoryModel.create(req.body);
-    console.log(result)
+    const { image } = req.files;
+    const data = req.body;
+
+    if (image) {
+      image.mv(__dirname + './../public/images/' + image.name);
+      data.thumbnail = '/images/' + image.name;
+    }
+    const result = await CategoryModel.create(data);
     res.status(200)
     res.json({ message: 'OK', success: true});
   }
@@ -45,6 +53,11 @@ class CategoryController {
   async update(req, res) {
     const id = req.params.id;
     const data = req.body
+    const { image } = req.files;
+    if (image) {
+      image.mv(__dirname + './../public/images/' + image.name);
+      data.thumbnail = '/images/' + image.name;
+    }
     await CategoryModel.findByIdAndUpdate(id, data);
     res.status(200)
     res.json({ message: 'OK', success: true});
