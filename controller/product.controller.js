@@ -1,4 +1,5 @@
 import ProductModel from "../model/product.model.js";
+import __dirname from 'path';
 
 class ProductController {
   async getProducts(req, res) {
