@@ -1,6 +1,36 @@
 import CustomerModel from "../model/customer.model.js";
+import bcrypt from 'bcrypt';
+import * as auth from '../config/auth.config.js';
+import Auth from '../middleware/auth.js'
 
 class CustomerController {
+  async login(req, res) {
+    const auth = new Auth();
+    const { email, password } = req.body;
+
+    const {status, token, name, username} = await auth.verifyUserLogin(email, password);
+    
+    res.status(status);
+
+    res.json({token, name, username});
+  }
+
+  async logout(req, res) {
+    const auth = new Auth();
+    const result = await auth.destroyUserLogin();
+    
+    res.status(200);
+
+    res.json({message: 'Logged out!'});
+  }
+  
+  async isLogged(req, res) {
+    const { token } = req.body;
+    const auth = new Auth();
+    const result = await auth.verifyToken(token);
+    res.send(result);
+  }
+
   async getCustomers(req, res) {
     const customers = await CustomerModel.find();
     res.status(200)
@@ -14,8 +44,10 @@ class CustomerController {
   }
 
   async create(req, res) {
+    const hashedPassword = await bcrypt.hash(req.body.password, auth.default.salt);
     try {
-      const result = await CustomerModel.create(req.body);
+      const customerData = { ...req.body, password: hashedPassword}
+      const result = await CustomerModel.create(customerData);
       res.status(200)
       res.json({ message: 'OK', success: true});
     } catch (error) {

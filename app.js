@@ -17,7 +17,7 @@ mongo.connect();
 const app = express();
 
 var corsOptions = {
-  origin: ["http://localhost:8081", "http://localhost:5173"]
+  origin: ["http://localhost:5174", "http://localhost:5173"]
 };
 
 app.use(fileUpload());

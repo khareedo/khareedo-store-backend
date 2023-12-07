@@ -1,8 +1,7 @@
 import UserModel from "../model/user.model.js";
 import bcrypt from 'bcrypt';
 import Auth from '../middleware/auth.js'
-import * as auth from './../config/auth.config.js'
-
+import * as auth from '../config/auth.config.js';
 class UserController {
   async login(req, res) {
     const auth = new Auth();
@@ -17,8 +16,7 @@ class UserController {
 
   async logout(req, res) {
     const auth = new Auth();
-
-    const result = await auth.destroyLogin();
+    const result = await auth.destroyUserLogin();
     
     res.status(200);
 
